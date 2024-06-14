@@ -45,3 +45,6 @@ This project is a simplified backend for a system that monitors patient heart ra
 2. heart_rate (IntegerField)
 3. timestamp (DateTimeField, auto_now_add=True)
 
+# Assumptions and Decisions
+- No authentication or authorization protocols are used beyond simple email and password validation.
+- Relationships are established using foreign keys to link users with patients and patients with heart rate data.
