@@ -42,6 +42,16 @@ def manage_patients(request):
         return Response(serializer.data)
 
 
+@api_view(['GET'])
+def get_patient_details(request, patient_id):
+    try:
+        patient = Patient.objects.get(id=patient_id)
+        serializer = PatientSerializer(patient)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Patient.DoesNotExist:
+        return Response({"error": "Patient not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
 @api_view(['POST', 'GET'])
 def heart_rate_data(request):
     if request.method == 'POST':
@@ -55,3 +65,15 @@ def heart_rate_data(request):
         data = HeartRateData.objects.all()
         serializer = HeartRateDataSerializer(data, many=True)
         return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_patient_heart_rate(request, patient_id):
+    try:
+        heart_rate_data = HeartRateData.objects.filter(patient_id=patient_id)
+        if not heart_rate_data:
+            return Response({"error": "No heart rate data found for this patient"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = HeartRateDataSerializer(heart_rate_data, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Patient.DoesNotExist:
+        return Response({"error": "Patient not found"}, status=status.HTTP_404_NOT_FOUND)

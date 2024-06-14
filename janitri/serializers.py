@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
-        fields = ['id', 'user', 'name', 'age', 'medical_history']
+        fields = ['id', 'user', 'name', 'age']
 
 
 class HeartRateDataSerializer(serializers.ModelSerializer):
